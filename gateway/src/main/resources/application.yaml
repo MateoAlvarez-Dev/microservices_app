@@ -1,0 +1,35 @@
+# spring.application.name=gateway
+
+spring:
+    application:
+        name: gateway
+    profiles:
+        active: default
+    
+    cloud:
+        gateway:
+            discovery:
+                    locator:
+                        enabled: true
+                        lower-case-service-id: true # Traer las id de los microservicios en minusculas
+                
+            routes:
+                - id: clans_service # identificador del microservicio
+                  uri: lb://clanes-crud # Hacia a donde redirigira nuestro servicio, se debe poner lb y el nombre EXACTO que tenemos en Eureka, LB significa Load Balancer
+                  predicates:
+                    - Path=/clan/**
+                - id: team_leader_service
+                  uri: lb://team-leader-service
+                  predicates:
+                    - Path=/api/v1/team-leader/**
+
+server:
+    port: 8080 # El gateway si podria ir tranquilo en el default que es 8080
+
+
+#Eureka configuration
+eureka:
+    client:
+        fetch-registry: true
+        service-url:
+            defaultZone: http://localhost:8761/eureka/

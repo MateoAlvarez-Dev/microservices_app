@@ -1,0 +1,6 @@
+docker run --rm -v "$PWD:/$(basename $PWD)" -w "/$(basename $PWD)" -it node:current-alpine sh -c "npm init"
+
+
+THIS IS REQUIRED TO RUN NODEJS IN RIWI:
+
+docker run -it --rm -v $(pwd):/app -p 3000:3000 node /bin/bash
